@@ -52,4 +52,4 @@ jobs:
         push: true
         cache-from: type=gha
         cache-to: type=gha,mode=min
-        tags: ${{ steps.login-ecr.outputs.registry }}/api-staging:${CI_COMMIT_REF_SLUG}-${CI_PIPELINE_ID}
+        tags: ${{ steps.login-ecr.outputs.registry }}/api-staging:${{ github.ref_name }}-${{ github.run_id }}
