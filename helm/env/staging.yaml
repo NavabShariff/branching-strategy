@@ -1,0 +1,17 @@
+namespace: staging
+
+image:
+  repository: navabnaeem/branching-strategy
+  tag: v1
+
+containerPort: 5000 
+envName: staging
+
+service:
+  type: ClusterIP
+  port: 80 
+  targetPort: 5000
+
+ingress:
+  host: "staging-branching.shariff.info"
+  path: "/"

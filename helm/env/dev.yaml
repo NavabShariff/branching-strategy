@@ -1,0 +1,18 @@
+namespace: dev
+
+image:
+  repository: navabnaeem/branching-strategy
+  tag: v1 
+
+containerPort: 5000 
+
+envName: dev
+
+service:
+  type: ClusterIP
+  port: 80  
+  targetPort: 5000
+
+ingress:
+  host: "dev-branching.shariff.info"
+  path: "/"

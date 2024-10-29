@@ -1,0 +1,48 @@
+name: Build and Push to ECR
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+    id-token: write
+    contents: read  
+
+env:
+  AWS_REGION : "ap-south-1"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: arn:aws:iam::590183687498:role/github-role
+        role-session-name: samplerolesession
+        aws-region: ${{ env.AWS_REGION }}
+
+
+    - name: Log in to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+
+    - name: Build and push
+      id: build-image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        cache-from: type=gha
+        cache-to: type=gha,mode=min
+        tags: ${{ steps.login-ecr.outputs.registry }}/api-staging:${CI_COMMIT_REF_SLUG}-${CI_PIPELINE_ID}"
