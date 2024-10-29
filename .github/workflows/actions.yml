@@ -61,6 +61,7 @@ jobs:
 
     - name: Set up kubeconfig
       run: |
+        mkdir -p ~/.kube
         echo "${{ secrets.KUBECONFIG_FILE }}" > ~/.kube/config
       shell: bash
 
