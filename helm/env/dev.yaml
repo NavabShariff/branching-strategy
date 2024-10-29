@@ -1,8 +1,8 @@
 namespace: dev
 
 image:
-  repository: navabnaeem/branching-strategy
-  tag: v1 
+  repository: 590183687498.dkr.ecr.ap-south-1.amazonaws.com/api-staging
+  tag: main-11575316581
 
 containerPort: 5000 
 
