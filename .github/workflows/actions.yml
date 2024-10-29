@@ -3,7 +3,7 @@ name: Build and Push to ECR
 on:
   push:
     branches:
-      - main
+      - master
   workflow_dispatch:
 
 permissions:
@@ -12,6 +12,11 @@ permissions:
 
 env:
   AWS_REGION : "ap-south-1"
+  # DB_HOST: ${{ secrets.DB_HOST }}
+  # DB_USER: ${{ secrets.DB_USER }}
+  # DB_PASS: ${{ secrets.DB_PASS }}
+  # DB_NAME: ${{ secrets.DB_NAME }}
+  # DB_PORT: ${{ secrets.DB_PORT }}
 
 jobs:
   build:
@@ -36,6 +41,8 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
+    # - name: Set current date as env variable
+    #   run: echo "NOW=$(date +'%Y-%m-%dT%H-%M-%S')" >> $GITHUB_ENV
 
     - name: Build and push
       id: build-image
@@ -45,4 +52,4 @@ jobs:
         push: true
         cache-from: type=gha
         cache-to: type=gha,mode=min
-        tags: ${{ steps.login-ecr.outputs.registry }}/api-staging:${CI_COMMIT_REF_SLUG}-${CI_PIPELINE_ID}"
+        tags: ${{ steps.login-ecr.outputs.registry }}/api-staging:${CI_COMMIT_REF_SLUG}-${CI_PIPELINE_ID}
